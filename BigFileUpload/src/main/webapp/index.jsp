@@ -97,7 +97,7 @@
         disableGlobalDnd: true,
         fileNumLimit: 1024,
         fileSizeLimit: 200 * 1024 * 1024,    // 200 M
-        fileSingleSizeLimit: 100 * 1024 * 1024    // 50 M
+        fileSingleSizeLimit: 100 * 1024 * 1024    // 100 M
     });
 
     // 当有文件被添加进队列的时候

@@ -86,15 +86,27 @@ public class UploadController extends HttpServlet {
 
 
                 //写入该分片数据
-                // 0.读取文件到文件夹
+                // 0.读取上传文件到数组
                 // 1.写到本地
                 // 1.记录分片数,检查分片数
                 // 2.当对应的md5读取数量达到对应的文件后,合并文件
                 // 3.删除临时文件
-                byte[] fileData = FileUtils.read(param.getFile(), 2048);
                 Path path = Paths.get(uploadDirPath, tempFileName);
-                Files.write(path, fileData, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
-                FileUtils.authorizationAll(path);
+                //文件上传时,获取是否有分片,如果有直接返回.
+                if(!Files.exists(path)) {
+                    // 不存在.
+                    byte[] fileData = FileUtils.read(param.getFile(), 2048);
+                    try {
+                        Files.write(path, fileData, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+                    } catch (IOException e) {
+                        // 删除上传的文件
+                        Files.delete(path);
+                        throw e;
+                    }
+                    FileUtils.authorizationAll(path);
+                } else {
+                    return;
+                }
 
                 FileBean fileBean;
                 if(fileMap.containsKey(param.getMd5())) {
