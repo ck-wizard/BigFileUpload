@@ -51,6 +51,8 @@
     - 多线程上传 多个线程上传不同的块文件。 
     - 文件进度显示 显示文件的上传完成情况。 
     
+<a name="使用说明"></a>
+## 使用说明
 <a name="获取代码"></a>
 ## 获取代码
 - GitHub:https://github.com/ck-wizard/BigFileUpload
