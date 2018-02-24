@@ -1,21 +1,25 @@
 package com.itheima.ck.bean;
 
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedTransferQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class FileBean {
     private String name;
     private int chunks;
-    private Boolean[] chunk;
+    private ConcurrentHashMap<Integer, Boolean> map;
     private String md5;
 
     public FileBean(String name, int chunks, String md5) {
         this.name = name;
         this.chunks = chunks;
         this.md5 = md5;
-        chunk = new Boolean[chunks];
+        map = new ConcurrentHashMap<>();
         for(int i = 0; i < chunks; i++) {
-            chunk[i] = false;
+            map.put(i, false);
         }
     }
 
@@ -35,22 +39,17 @@ public class FileBean {
         this.chunks = chunks;
     }
 
-    public boolean getChunk(int index) {
-        return chunk[index];
+    // 这个值是不准确的...
+    public  boolean isLoadComplate() {
+        map.values().stream().forEach(System.out::print);
+        System.out.println();
+        return !map.values().stream().anyMatch((value) -> !value) ;
     }
 
-    // 默认为true
-    public void setChunk(int index) {
-        this.setChunk(index, true);
+    public void addIndex(int chunk) {
+        map.put(chunk, true);
     }
 
-    public void setChunk(int index, boolean value) {
-        this.chunk[index] = value;
-    }
-
-    public boolean isLoadComplate() {
-        return !Arrays.stream(chunk).anyMatch((value) -> !value);
-    }
 
     public String getMd5() {
         return md5;

@@ -116,7 +116,7 @@ public class FileUtils {
         try {
             Files.setPosixFilePermissions(path, perms);
         } catch (Exception e) {
-            logger.info("Change folder " + path + " permission failed.", e);
+            logger.info("Change folder " + path + " permission failed.");
         }
     }
 
